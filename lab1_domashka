@@ -1,30 +1,19 @@
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { test, expect } from '@playwright/test';
 
-// Конфигурация теста: 10 виртуальных пользователей в течение 30 секунд
-export const options = {
-  vus: 10,
-  duration: '30s',
-  thresholds: {
-    // Тест будет считаться проваленным, если более 1% запросов завершатся ошибкой
-    http_req_failed: ['rate<0.01'],
-    // 95% запросов должны выполняться быстрее 2 секунд
-    http_req_duration: ['p(95)<2000'],
-  },
-};
+// Увеличиваем таймаут для всего файла, так как GitHub тяжелый
+test.describe.configure({ timeout: 60000 });
 
-export default function () {
-  const url = 'https://cdipi.vl.socinfo.ru/';
+test('1. главная страница GitHub загружается с корректным title и контентом', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  await expect(page).toHaveTitle(/GitHub/i);
   
-  // Выполняем GET-запрос
-  const res = http.get(url);
+  // Проверяем наличие главного заголовка (h1)
+  await expect(page.locator('h1').first()).toBeVisible();
 
-  // Проверяем, что статус ответа 200 (успех)
-  check(res, {
-    'статус ответа 200': (r) => r.status === 200,
-    'тело ответа не пустое': (r) => r.body && r.body.length > 0,
-  });
+  // Проверяем, что присутствует навигация (header)
+  await expect(page.locator('header').first()).toBeVisible();
 
-  // Небольшая пауза между итерациями, чтобы имитировать поведение пользователя
-  sleep(1);
-}
+  // Проверяем кнопку "Sign in"
+  await expect(page.getByRole('link', { name: /sign in/i }).first()).toBeVisible();
+});
