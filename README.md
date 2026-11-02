@@ -3,4 +3,5 @@
 Это тестовый репозиторий бла бла бла инфы нет
 
 
-<img width="1179" height="1171" alt="Image" src="https://github.com/user-attachments/assets/9dc06654-351d-45d1-bd5c-b0fd3b009127" />
+<img width="736" height="1029" alt="60ce0d3ca12daa791652fe86fdd2d543" src="https://github.com/user-attachments/assets/20461e39-a352-433d-adeb-b77448865b17" />
+
