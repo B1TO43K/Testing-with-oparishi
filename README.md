@@ -7,3 +7,6 @@
 
 
 <img width="1019" height="1280" alt="2026-11-02 21 14 38" src="https://github.com/user-attachments/assets/dd5f953a-b9b4-4bd7-b631-ce2c39e29ca1" />
+
+
+<img width="664" height="583" alt="своя игра 3" src="https://github.com/user-attachments/assets/8cf45aca-7392-486a-98aa-ca91b025538a" />
