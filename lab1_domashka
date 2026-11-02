@@ -115,3 +115,17 @@ test('Переключатель темы в настройках меняет �
     await expect(themeToggle).toBeVisible();
   }
 });
+
+test('поиск репозитория "playwright" возвращает результаты', async ({ page }) => {
+  await page.goto('/search?q=playwright&type=repositories', { waitUntil: 'domcontentloaded' });
+
+  await expect(page.locator('body')).toContainText(/playwright/i);
+
+  // Должен быть хотя бы один результат
+  const repoLinks = page.locator('a[href*="/microsoft/playwright"], a[href*="/playwright"]');
+  await expect(repoLinks.first()).toBeVisible();
+
+  // Переход в репозиторий
+  await repoLinks.first().click();
+  await expect(page).toHaveURL(/\/[\w-]+\/[\w-]+/);
+});
