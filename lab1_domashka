@@ -1,1 +1,30 @@
-йоу
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+// Конфигурация теста: 10 виртуальных пользователей в течение 30 секунд
+export const options = {
+  vus: 10,
+  duration: '30s',
+  thresholds: {
+    // Тест будет считаться проваленным, если более 1% запросов завершатся ошибкой
+    http_req_failed: ['rate<0.01'],
+    // 95% запросов должны выполняться быстрее 2 секунд
+    http_req_duration: ['p(95)<2000'],
+  },
+};
+
+export default function () {
+  const url = 'https://cdipi.vl.socinfo.ru/';
+  
+  // Выполняем GET-запрос
+  const res = http.get(url);
+
+  // Проверяем, что статус ответа 200 (успех)
+  check(res, {
+    'статус ответа 200': (r) => r.status === 200,
+    'тело ответа не пустое': (r) => r.body && r.body.length > 0,
+  });
+
+  // Небольшая пауза между итерациями, чтобы имитировать поведение пользователя
+  sleep(1);
+}
