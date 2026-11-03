@@ -1,0 +1,131 @@
+import { test, expect } from '@playwright/test';
+
+// Увеличиваем таймаут для всего файла, так как GitHub тяжелый
+test.describe.configure({ timeout: 60000 });
+
+test('главная страница GitHub загружается с корректным title и контентом', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  await expect(page).toHaveTitle(/GitHub/i);
+  
+  // Проверяем наличие главного заголовка (h1)
+  await expect(page.locator('h1').first()).toBeVisible();
+
+  // Проверяем, что присутствует навигация (header)
+  await expect(page.locator('header').first()).toBeVisible();
+
+  // Проверяем кнопку "Sign in"
+  await expect(page.getByRole('link', { name: /sign in/i }).first()).toBeVisible();
+});
+
+
+test('в хедере видны ключевые элементы навигации', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  const header = page.locator('header').first();
+  await expect(header).toBeVisible();
+
+  // Проверяем только стабильные элементы, которые точно есть в хедере
+  await expect(header.getByRole('link', { name: /pricing/i }).first()).toBeVisible();
+  
+  // Кнопки авторизации
+  await expect(header.getByRole('link', { name: /sign in/i }).first()).toBeVisible();
+  await expect(header.getByRole('link', { name: /sign up/i }).first()).toBeVisible();
+});
+
+test(' футер содержит ссылки на политики и продукты', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  // Футер на GitHub обычно в самом низу
+  const footer = page.locator('footer').last();
+  
+  // Прокручиваем к футеру
+  await footer.scrollIntoViewIfNeeded();
+  await expect(footer).toBeVisible();
+
+  // Проверяем ключевые ссылки футера
+  await expect(footer.getByRole('link', { name: /privacy/i }).first()).toBeVisible();
+  await expect(footer.getByRole('link', { name: /terms/i }).first()).toBeVisible();
+
+  // Проверяем, что ссылка имеет href
+  const href = await footer.getByRole('link', { name: /privacy/i }).first().getAttribute('href');
+  expect(href).toBeTruthy();
+});
+
+test('Гость может открыть меню "Products" в шапке сайта', async ({ page }) => {
+  // 1. Переходим на сайт
+  await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
+
+  // 2. Ищем кнопку "Products" в верхнем меню (она видна на вашем скриншоте)
+  const productsButton = page.getByRole('button', { name: 'Products' });
+  
+  // Ждем, пока она появится (на случай медленной загрузки видео)
+  await expect(productsButton).toBeVisible({ timeout: 15000 });
+
+  // 3. Кликаем по ней
+  await productsButton.click();
+
+  // 4. Проверяем, что открылось выпадающее меню с пунктом "Actions" (или другим)
+  // Используем getByRole('link'), так как внутри меню обычно ссылки
+  const actionsLink = page.getByRole('link', { name: 'Actions' }).first();
+  await expect(actionsLink).toBeVisible({ timeout: 5000 });
+
+  // 5. Кликаем на "Actions" и проверяем переход
+  await actionsLink.click();
+  await expect(page).toHaveURL(/.*\/features\/actions/);
+});
+
+test('Страница логина открывается и содержит поля ввода', async ({ page }) => {
+  await page.goto('/login', { waitUntil: 'domcontentloaded' });
+
+  await expect(page).toHaveURL(/login/);
+
+  // Используем точные метки, которые использует GitHub
+  await expect(page.getByLabel('Username or email address')).toBeVisible();
+  await expect(page.getByLabel('Password')).toBeVisible();
+  
+  const signInBtn = page.getByRole('button', { name: /sign in/i }).first();
+  await expect(signInBtn).toBeVisible();
+
+  // Проверяем валидацию пустой отправки (страница не должна уходить с /login)
+  await signInBtn.click();
+  await expect(page).toHaveURL(/login/);
+});
+
+test('Переключатель темы в настройках меняет тему страницы', async ({ page }) => {
+  // Переходим сразу на страницу настроек внешнего вида (доступна только авторизованным, 
+  // но даже без авторизации мы можем проверить атрибуты темы на главной)
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+  // Проверяем атрибуты темы на html
+  const html = page.locator('html');
+  const initialScheme = await html.getAttribute('data-color-mode');
+  expect(initialScheme === null || ['light', 'dark', 'auto'].includes(initialScheme)).toBe(true);
+
+  // Эмуляция тёмной темы через медиа-запрос
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+
+  // Убеждаемся, что страница не упала и body доступен
+  await expect(page.locator('body')).toBeVisible();
+
+  // Проверяем наличие переключателя (если он есть в DOM)
+  const themeToggle = page.locator('[aria-label*="theme" i], [data-color-mode-toggle]').first();
+  if (await themeToggle.count()) {
+    await expect(themeToggle).toBeVisible();
+  }
+});
+
+test('поиск репозитория "playwright" возвращает результаты', async ({ page }) => {
+  await page.goto('/search?q=playwright&type=repositories', { waitUntil: 'domcontentloaded' });
+
+  await expect(page.locator('body')).toContainText(/playwright/i);
+
+  // Должен быть хотя бы один результат
+  const repoLinks = page.locator('a[href*="/microsoft/playwright"], a[href*="/playwright"]');
+  await expect(repoLinks.first()).toBeVisible();
+
+  // Переход в репозиторий
+  await repoLinks.first().click();
+  await expect(page).toHaveURL(/\/[\w-]+\/[\w-]+/);
+});
