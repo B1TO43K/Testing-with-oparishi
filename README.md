@@ -1,6 +1,6 @@
 
 # Testing-with-oparishi
-Это тестовый репозиторий бла бла бла инфы нет
+Это ветка Егорика-обжорика. Пойте вместе со мной, пейте сами
 
 ---
 <img width="640" height="640" alt="photo_2026-09-07_21-47-23" src="https://github.com/user-attachments/assets/c6403560-578b-4adb-977a-3edb4f1d688f" />
