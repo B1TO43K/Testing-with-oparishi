@@ -1,12 +1,11 @@
 
 # Testing-with-oparishi
-Это тестовый репозиторий бла бла бла инфы нет
+йоу
 
 ---
-<img width="736" height="1029" alt="60ce0d3ca12daa791652fe86fdd2d543" src="https://github.com/user-attachments/assets/20461e39-a352-433d-adeb-b77448865b17" />
 
+<img width="886" height="1280" alt="photo_2026-11-03_13-08-28" src="https://github.com/user-attachments/assets/650320de-73e0-4ad1-8709-1e441e177b60" />
+<img width="1080" height="831" alt="photo_3_2026-11-03_13-07-09" src="https://github.com/user-attachments/assets/67742637-b749-4eaa-b94b-fcdccab1b43a" />
+<img width="963" height="1280" alt="photo_1_2026-11-03_13-07-09" src="https://github.com/user-attachments/assets/26176b28-0c82-4fab-aa70-94f188e797ae" />
+https://github.com/user-attachments/assets/67d92ed5-ccf4-43bb-9a17-de2d9a288e8e
 
-<img width="1019" height="1280" alt="2026-11-02 21 14 38" src="https://github.com/user-attachments/assets/dd5f953a-b9b4-4bd7-b631-ce2c39e29ca1" />
-
-
-<img width="664" height="583" alt="своя игра 3" src="https://github.com/user-attachments/assets/8cf45aca-7392-486a-98aa-ca91b025538a" />
