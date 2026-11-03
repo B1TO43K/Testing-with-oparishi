@@ -21,4 +21,18 @@
 <img width="640" height="640" alt="i" src="https://github.com/user-attachments/assets/f70feb05-f0d7-4abc-b286-74a426077fd6" />
 
 Котик говорит Мур мяу
+# :3 Владик - маленький фембойчик, не обижайте эту няшечку <3 
 
+<img width="482" height="640" alt="i (5)" src="https://github.com/user-attachments/assets/e42b8128-381d-448c-8e8e-55454dc46a32" />
+
+Команда разработчиков глубоко ценит и уважает ваше мнение(пока вы его держите при себе)
+# Егорик-обжорик
+
+<img width="640" height="640" alt="i (4)" src="https://github.com/user-attachments/assets/267e21dd-2569-487c-9ff5-05baafe84823" />
+
+Лучше спеться, чем спиться!
+# КРЕЙЗИ ГУЧИ СИГМА ПАРЕНЬ - НИКИТОС (берегитесь, он страшно могает)
+
+<img width="360" height="640" alt="i (6)" src="https://github.com/user-attachments/assets/f202ca9b-c3e2-41d5-8ac7-f7bbddd0f3ef" />
+
+Я тебя могну... момомомогну
