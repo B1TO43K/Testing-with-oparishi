@@ -1,6 +1,6 @@
 # B1TOK
 
-Галллерея разработчиков:
+Галллелея лазлаботсиков:
 # Битоняшка
 
 <img width="366" height="640" alt="i (1)" src="https://github.com/user-attachments/assets/b864d1c9-0bc9-4b68-8d73-a747404f6fe2" />
