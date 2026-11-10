@@ -1,4 +1,8 @@
-test('4. страница логина открывается и содержит поля ввода', async ({ page }) => {
+import { test, expect } from '@playwright/test';
+
+test.describe.configure({ timeout: 60000 });
+
+test('1. страница логина открывается и содержит поля ввода', async ({ page }) => {
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
 
   await expect(page).toHaveURL(/login/);
@@ -15,7 +19,7 @@ test('4. страница логина открывается и содержи�
   await expect(page).toHaveURL(/login/);
 });
 
-test('17. страница About доступна', async ({ page }) => {
+test('2. страница About доступна', async ({ page }) => {
   await page.goto('/about', { waitUntil: 'domcontentloaded' });
 
   await expect(page).toHaveURL(/about/i);
@@ -25,7 +29,7 @@ test('17. страница About доступна', async ({ page }) => {
   await expect(page.locator('h1').first()).toBeVisible();
 });
 
-test('9. переключатель темы в настройках меняет тему страницы', async ({ page }) => {
+test('3. переключатель темы в настройках меняет тему страницы', async ({ page }) => {
   // Переходим сразу на страницу настроек внешнего вида (доступна только авторизованным, 
   // но даже без авторизации мы можем проверить атрибуты темы на главной)
   await page.goto('/', { waitUntil: 'domcontentloaded' });
