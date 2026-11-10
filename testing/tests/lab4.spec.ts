@@ -104,6 +104,7 @@ test('6 базовые элементы доступности присутст�
   const totalImages = await page.locator('img').count();
   if (totalImages > 0) {
     expect(imagesWithoutAlt).toBeLessThan(totalImages * 0.5); // Меньше половины без alt
+  }
 });
 
 test('7. поиск репозитория "playwright" возвращает результаты', async ({ page }) => {
