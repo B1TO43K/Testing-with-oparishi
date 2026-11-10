@@ -1,5 +1,3 @@
-
-
 import { test, expect } from '@playwright/test';
 
 // Увеличиваем таймаут для всего файла, так как GitHub тяжелый
@@ -17,7 +15,8 @@ test('в хедере видны ключевые элементы навига�
   // Кнопки авторизации
   await expect(header.getByRole('link', { name: /sign in/i }).first()).toBeVisible();
   await expect(header.getByRole('link', { name: /sign up/i }).first()).toBeVisible();
-=======
+});
+
 test('Страница логина открывается и содержит поля ввода', async ({ page }) => {
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
 
