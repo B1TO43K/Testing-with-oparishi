@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-// Увеличиваем таймаут для всего файла, так как GitHub тяжелый
-test.describe.configure({ timeout: 60000 });
-
-test('в хедере видны ключевые элементы навигации', async ({ page }) => {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+test('Гость может открыть меню "Products" в шапке сайта', async ({ page }) => {
+  // 1. Переходим на сайт
+  await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
 
   const header = page.locator('header').first();
   await expect(header).toBeVisible();
@@ -21,14 +19,12 @@ test('Страница логина открывается и содержит �
 
   await expect(page).toHaveURL(/login/);
 
-  // Используем точные метки, которые использует GitHub
-  await expect(page.getByLabel('Username or email address')).toBeVisible();
-  await expect(page.getByLabel('Password')).toBeVisible();
-  
-  const signInBtn = page.getByRole('button', { name: /sign in/i }).first();
-  await expect(signInBtn).toBeVisible();
+  // 4. Проверяем, что открылось выпадающее меню с пунктом "Actions"
+  // Используем getByRole('link'), так как внутри меню обычно ссылки
+  const actionsLink = page.getByRole('link', { name: 'Actions' }).first();
+  await expect(actionsLink).toBeVisible({ timeout: 5000 });
 
-  // Проверяем валидацию пустой отправки (страница не должна уходить с /login)
-  await signInBtn.click();
-  await expect(page).toHaveURL(/login/);
-}); 
+  // 5. Кликаем на "Actions" и проверяем переход
+  await actionsLink.click();
+  await expect(page).toHaveURL(/.*\/features\/actions/);
+});
