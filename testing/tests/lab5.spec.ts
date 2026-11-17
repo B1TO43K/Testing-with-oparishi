@@ -129,6 +129,73 @@ test('6. ссылка создания аккаунта ведет на реги
     'href',
     /^https:\/\/auth\.fandom\.com\/register\?/,
   );
+});test('13. страница содержит изображения из CDN Fandom', async ({ page }) => {
+  const contentImages = page.locator(
+    'img[src^="https://static.wikia.nocookie.net/"]',
+  );
+
+  expect(await contentImages.count()).toBeGreaterThan(0);
+  await expect(contentImages.first()).toHaveAttribute('src', /^https:\/\//);
+});
+
+test('14. футер содержит основные информационные разделы', async ({ page }) => {
+  const footer = page.locator('footer').last();
+  await footer.scrollIntoViewIfNeeded();
+
+  await expect(footer).toBeVisible();
+  await expect(footer).toContainText(/Explore properties/i);
+  await expect(footer).toContainText(/Overview/i);
+  await expect(footer).toContainText(/Community/i);
+});
+
+test('15. в футере присутствуют ссылки About и Careers', async ({ page }) => {
+  const footer = page.locator('footer').last();
+  const aboutLink = footer.locator('a[href*="/about"]').first();
+  const careersLink = footer.locator('a[href*="/careers"]').first();
+
+  await footer.scrollIntoViewIfNeeded();
+  await expect(aboutLink).toBeVisible();
+  await expect(careersLink).toBeVisible();
+});
+
+test('10. дополнительная навигация содержит Settings и More', async ({ page }) => {
+  const navigation = page.getByRole('navigation', {
+    name: 'Fandom navigation',
+    exact: true,
+  }).nth(1);
+  const settingsButton = navigation.getByRole('button', {
+    name: 'Settings',
+    exact: true,
+  });
+  const moreButton = navigation.getByRole('button', {
+    name: 'More',
+    exact: true,
+  });
+
+  await expect(settingsButton).toBeVisible();
+  await expect(moreButton).toBeVisible();
+});
+
+test('11. страница содержит ссылки на материалы Fandom', async ({ page }) => {
+  const articleLinks = page.locator(
+    'a[href*="/articles/"], a[href*="/curated/"]',
+  );
+  const linksWithText = await articleLinks.evaluateAll((links) =>
+    links.filter((link) => link.textContent?.trim()).length,
+  );
+
+  expect(await articleLinks.count()).toBeGreaterThan(0);
+  expect(linksWithText).toBeGreaterThan(0);
+});
+
+test('12. на странице отображается блок Top Wikis', async ({ page }) => {
+  const heading = page.getByRole('heading', {
+    name: 'Top Wikis',
+    exact: true,
+  }).first();
+
+  await expect(heading).toBeVisible();
+  expect(await page.locator('a[href*=".fandom.com"]').count()).toBeGreaterThan(3);
 });
 test('7. ссылка Home ведет на главную страницу Fandom', async ({ page }) => {
   const navigation = page.getByRole('navigation', {
