@@ -31,7 +31,22 @@ test('8. поиск репозитория через URL возвращает �
   const href = await repoLink.getAttribute('href');
   expect(href).toMatch(/\/[\w-]+\/[\w-]+/);
 });
-=======
+
+
+
+
+
+
+
+/* poikjdfsgokp;jigdfhlokpngfdhkolpingfhdklpmoin;gfdnh
+
+fgd
+h
+gfdh
+gfd
+h
+fgd
+hgfd */
 
 test('4 футер содержит ссылки на политики и продукты', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
