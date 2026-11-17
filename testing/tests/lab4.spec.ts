@@ -1,3 +1,6 @@
+import { test, expect } from '@playwright/test';
+
+test.describe.configure({ timeout: 60000 });
 
 test('4 футер содержит ссылки на политики и продукты', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -51,10 +54,7 @@ test('6 базовые элементы доступности присутст�
   if (totalImages > 0) {
     expect(imagesWithoutAlt).toBeLessThan(totalImages * 0.5); // Меньше половины без alt
   }
-
-import { test, expect } from '@playwright/test';
-
-test.describe.configure({ timeout: 60000 });
+}); // <--- ДОБАВЛЕНА ЭТА СТРОКА (закрывает тест №6)
 
 test('1. страница логина открывается и содержит поля ввода', async ({ page }) => {
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
