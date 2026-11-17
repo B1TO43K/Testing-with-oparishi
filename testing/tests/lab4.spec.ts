@@ -1,57 +1,37 @@
-import { test, expect } from '@playwright/test';
 
-test.describe.configure({ timeout: 60000 });
+test('7. поиск репозитория "playwright" возвращает результаты', async ({ page }) => {
+  await page.goto('/search?q=playwright&type=repositories', { waitUntil: 'domcontentloaded' });
 
-test('1. страница логина открывается и содержит поля ввода', async ({ page }) => {
-  await page.goto('/login', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('body')).toContainText(/playwright/i);
 
-  await expect(page).toHaveURL(/login/);
+  // Должен быть хотя бы один результат
+  const repoLinks = page.locator('a[href*="/microsoft/playwright"], a[href*="/playwright"]');
+  await expect(repoLinks.first()).toBeVisible();
 
-  // Используем точные метки, которые использует GitHub
-  await expect(page.getByLabel('Username or email address')).toBeVisible();
-  await expect(page.getByLabel('Password')).toBeVisible();
-  
-  const signInBtn = page.getByRole('button', { name: /sign in/i }).first();
-  await expect(signInBtn).toBeVisible();
-
-  // Проверяем валидацию пустой отправки (страница не должна уходить с /login)
-  await signInBtn.click();
-  await expect(page).toHaveURL(/login/);
+  // Переход в репозиторий
+  await repoLinks.first().click();
+  await expect(page).toHaveURL(/\/[\w-]+\/[\w-]+/);
 });
 
-test('2. страница About доступна', async ({ page }) => {
-  await page.goto('/about', { waitUntil: 'domcontentloaded' });
+test('8. поиск репозитория через URL возвращает результаты', async ({ page }) => {
+  // Идём сразу на страницу поиска с параметром запроса
+  // Это быстрее и надёжнее, чем кликать по полю на главной
+  await page.goto('https://github.com/search?q=playwright&type=repositories', {
+    waitUntil: 'domcontentloaded',
+  });
 
-  await expect(page).toHaveURL(/about/i);
-  
-  // Проверяем, что на странице есть информация о GitHub
-  await expect(page.locator('body')).toContainText(/GitHub/i);
-  await expect(page.locator('h1').first()).toBeVisible();
+  // Проверяем, что на странице есть слово playwright (результаты поиска)
+  await expect(page.locator('body')).toContainText(/playwright/i);
+
+  // Ищем хотя бы одну ссылку на репозиторий (обычно ведёт на /owner/repo)
+  const repoLink = page.locator('a[href*="/microsoft/playwright"], a[href*="/playwright"]').first();
+  await expect(repoLink).toBeVisible();
+
+  // Опционально: проверяем, что ссылка ведёт на страницу репозитория
+  const href = await repoLink.getAttribute('href');
+  expect(href).toMatch(/\/[\w-]+\/[\w-]+/);
 });
-
-test('3. переключатель темы в настройках меняет тему страницы', async ({ page }) => {
-  // Переходим сразу на страницу настроек внешнего вида (доступна только авторизованным, 
-  // но даже без авторизации мы можем проверить атрибуты темы на главной)
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
-
-  // Проверяем атрибуты темы на html
-  const html = page.locator('html');
-  const initialScheme = await html.getAttribute('data-color-mode');
-  expect(initialScheme === null || ['light', 'dark', 'auto'].includes(initialScheme)).toBe(true);
-
-  // Эмуляция тёмной темы через медиа-запрос
-  await page.emulateMedia({ colorScheme: 'dark' });
-  await page.reload({ waitUntil: 'domcontentloaded' });
-
-  // Убеждаемся, что страница не упала и body доступен
-  await expect(page.locator('body')).toBeVisible();
-
-  // Проверяем наличие переключателя (если он есть в DOM)
-  const themeToggle = page.locator('[aria-label*="theme" i], [data-color-mode-toggle]').first();
-  if (await themeToggle.count()) {
-    await expect(themeToggle).toBeVisible();
-  }
-});
+=======
 
 test('4 футер содержит ссылки на политики и продукты', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -105,37 +85,58 @@ test('6 базовые элементы доступности присутст�
   if (totalImages > 0) {
     expect(imagesWithoutAlt).toBeLessThan(totalImages * 0.5); // Меньше половины без alt
   }
+
+import { test, expect } from '@playwright/test';
+
+test.describe.configure({ timeout: 60000 });
+
+test('1. страница логина открывается и содержит поля ввода', async ({ page }) => {
+  await page.goto('/login', { waitUntil: 'domcontentloaded' });
+
+  await expect(page).toHaveURL(/login/);
+
+  // Используем точные метки, которые использует GitHub
+  await expect(page.getByLabel('Username or email address')).toBeVisible();
+  await expect(page.getByLabel('Password')).toBeVisible();
+  
+  const signInBtn = page.getByRole('button', { name: /sign in/i }).first();
+  await expect(signInBtn).toBeVisible();
+
+  // Проверяем валидацию пустой отправки (страница не должна уходить с /login)
+  await signInBtn.click();
+  await expect(page).toHaveURL(/login/);
 });
 
-test('7. поиск репозитория "playwright" возвращает результаты', async ({ page }) => {
-  await page.goto('/search?q=playwright&type=repositories', { waitUntil: 'domcontentloaded' });
+test('2. страница About доступна', async ({ page }) => {
+  await page.goto('/about', { waitUntil: 'domcontentloaded' });
 
-  await expect(page.locator('body')).toContainText(/playwright/i);
-
-  // Должен быть хотя бы один результат
-  const repoLinks = page.locator('a[href*="/microsoft/playwright"], a[href*="/playwright"]');
-  await expect(repoLinks.first()).toBeVisible();
-
-  // Переход в репозиторий
-  await repoLinks.first().click();
-  await expect(page).toHaveURL(/\/[\w-]+\/[\w-]+/);
+  await expect(page).toHaveURL(/about/i);
+  
+  // Проверяем, что на странице есть информация о GitHub
+  await expect(page.locator('body')).toContainText(/GitHub/i);
+  await expect(page.locator('h1').first()).toBeVisible();
 });
 
-test('8. поиск репозитория через URL возвращает результаты', async ({ page }) => {
-  // Идём сразу на страницу поиска с параметром запроса
-  // Это быстрее и надёжнее, чем кликать по полю на главной
-  await page.goto('https://github.com/search?q=playwright&type=repositories', {
-    waitUntil: 'domcontentloaded',
-  });
+test('3. переключатель темы в настройках меняет тему страницы', async ({ page }) => {
+  // Переходим сразу на страницу настроек внешнего вида (доступна только авторизованным, 
+  // но даже без авторизации мы можем проверить атрибуты темы на главной)
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-  // Проверяем, что на странице есть слово playwright (результаты поиска)
-  await expect(page.locator('body')).toContainText(/playwright/i);
+  // Проверяем атрибуты темы на html
+  const html = page.locator('html');
+  const initialScheme = await html.getAttribute('data-color-mode');
+  expect(initialScheme === null || ['light', 'dark', 'auto'].includes(initialScheme)).toBe(true);
 
-  // Ищем хотя бы одну ссылку на репозиторий (обычно ведёт на /owner/repo)
-  const repoLink = page.locator('a[href*="/microsoft/playwright"], a[href*="/playwright"]').first();
-  await expect(repoLink).toBeVisible();
+  // Эмуляция тёмной темы через медиа-запрос
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
 
-  // Опционально: проверяем, что ссылка ведёт на страницу репозитория
-  const href = await repoLink.getAttribute('href');
-  expect(href).toMatch(/\/[\w-]+\/[\w-]+/);
+  // Убеждаемся, что страница не упала и body доступен
+  await expect(page.locator('body')).toBeVisible();
+
+  // Проверяем наличие переключателя (если он есть в DOM)
+  const themeToggle = page.locator('[aria-label*="theme" i], [data-color-mode-toggle]').first();
+  if (await themeToggle.count()) {
+    await expect(themeToggle).toBeVisible();
+  }
 });
