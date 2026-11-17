@@ -23,15 +23,24 @@ https://github.com/user-attachments/assets/d25a2c54-d333-435a-89cb-4cfc22c7bc42
 <img width="1080" height="831" alt="photo_3_2026-11-03_13-07-09" src="https://github.com/user-attachments/assets/67742637-b749-4eaa-b94b-fcdccab1b43a" />
 <img width="736" height="694" alt="photo_1_2026-11-03_13-31-17" src="https://github.com/user-attachments/assets/22a3b280-5aa9-48c9-9300-dda59b030146" />
 
+dsa
+f
+dsa
+f
+dsaa
+f
+dsa
+f
+
+
+
 
 <img width="963" height="1280" alt="photo_1_2026-11-03_13-07-09" src="https://github.com/user-attachments/assets/26176b28-0c82-4fab-aa70-94f188e797ae" />
 <img width="736" height="723" alt="photo_3_2026-11-03_13-31-17" src="https://github.com/user-attachments/assets/7f48bad9-c4be-4e7a-bd7d-8bcc0b2f50bb" />
-<img width="736" height="920" alt="photo_5_2026-11-03_13-31-17" src="https://github.com/user-attachments/assets/a1e0a4eb-ef51-42f9-945d-dce75686240b" />
-<img width="736" height="1029" alt="photo_2_2026-11-03_13-31-17" src="https://github.com/user-attachments/assets/6987af50-a131-457b-8250-6b8984123270" />
-<img width="736" height="913" alt="photo_4_2026-11-03_13-31-17" src="https://github.com/user-attachments/assets/19d0ed02-8380-4958-aab4-148949c3ce77" />
-<img width="720" height="416" alt="17375582986160" src="https://github.com/user-attachments/assets/f57e13a1-f711-493f-9ac4-5b377e0bdf81" />
-
-=======
+fdsafds
+dsaaf
+sdafdsa
+dasfdsafdsafdsafasd
 
 <img width="366" height="640" alt="i (1)" src="https://github.com/user-attachments/assets/b864d1c9-0bc9-4b68-8d73-a747404f6fe2" />
 
