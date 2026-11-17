@@ -15,8 +15,7 @@ test('в хедере видны ключевые элементы навига�
   // Кнопки авторизации
   await expect(header.getByRole('link', { name: /sign in/i }).first()).toBeVisible();
   await expect(header.getByRole('link', { name: /sign up/i }).first()).toBeVisible();
-}); // <--- ДОБАВЛЕНА ЭТА СТРОКА (закрывает первый тест)
-
+=======
 test('Страница логина открывается и содержит поля ввода', async ({ page }) => {
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
 
